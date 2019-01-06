@@ -1,20 +1,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <url>
-<loc>https://github.com/valhello/web/</loc>
+<loc>https://valhello.app/</loc>
 </url>
 <url>
-<loc>https://github.com/valhello/web/approach-1-state-channels/</loc>
+<loc>https://valhello.app/approach-1-state-channels/</loc>
 </url>
 <url>
-<loc>https://github.com/valhello/web/approach-2-loomx/</loc>
+<loc>https://valhello.app/approach-2-loomx/</loc>
 </url>
 <url>
-<loc>https://github.com/valhello/web/approach-3-substrate/</loc>
+<loc>https://valhello.app/approach-3-substrate/</loc>
 </url>
 <url>
-<loc>https://github.com/valhello/web/faq/</loc>
+<loc>https://valhello.app/faq/</loc>
 </url>
 <url>
-<loc>https://github.com/valhello/web/valhello-world/</loc>
+<loc>https://valhello.app/valhello-world/</loc>
 </url>
 </urlset>
