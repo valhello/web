@@ -1,0 +1,586 @@
+<!doctype html><html amp lang="en"><head><meta charset="utf-8"><title>Approach 1: State Channels - Valhello</title><meta name="description" content="How will the state channel approach help Valhello grow?"><meta name="robots" content="index, follow"><link rel="canonical" href="https://github.com/valhello/web/approach-1-state-channels/"><meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"><link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css"><script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script><script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script><script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://github.com/valhello/web/amp/approach-1-state-channels/"},"headline":"Approach 1: State Channels","datePublished":"2019-01-06T09:01","dateModified":"2019-01-06T11:20","image":{"@type":"ImageObject","url":"https://github.com/valhello/web/media/posts/2/p02m63dp.jpg","height":518,"width":1280},"description":"<p>The first approach to build Valhello will be with state channels. How will the state channel approach help Valhello grow? What are State channels and how do they work? Are they a viable scaling solution? Let's see.</p>\n","author":{"@type":"Person","name":"Bruno Škvorc"},"publisher":{"@type":"Organization","name":"Bruno Škvorc","logo":{"@type":"ImageObject","url":"https://github.com/valhello/web/media/website/skull.png","height":256,"width":256}}}</script><style amp-custom>article,
+aside,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+  display: block; }
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0; }
+
+li {
+  list-style: none; }
+
+amp-img {
+  max-width: 100%; }
+
+button,
+input,
+select,
+textarea {
+  font: inherit; }
+
+html {
+  font-size: 1rem; }
+
+body {
+  background: #f1f1f1;
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.6; }
+
+a {
+  color:  #039be5;
+  text-decoration: none;
+  -webkit-transition: all 0.12s linear 0s;
+  -o-transition: all 0.12s linear 0s;
+  transition: all 0.12s linear 0s; }
+
+a:hover {
+  color: #262626;
+  text-decoration: underline;
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip: ink; }
+
+a:active {
+  color: #262626; }
+
+a:focus {
+  outline: 2px dotted #039be5; }
+
+figure,
+blockquote,
+p,
+ul,
+ol,
+dl,
+table,
+hr,
+fieldset {
+  margin-top: 1.6rem; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 2.13333rem; }
+
+h1 {
+  font-size: 1.67583rem;
+  font-weight: normal; }
+
+h2 {
+  font-size: 1.4729rem; }
+
+h3 {
+  font-size: 1.29454rem; }
+
+h4 {
+  font-size: 1.13778rem; }
+
+h5 {
+  font-size: 1rem; }
+
+h6 {
+  font-size: 0.87891rem; }
+
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
+  margin-top: 0.8rem; }
+
+b,
+strong {
+  font-weight: 600; }
+
+blockquote {
+  color: #6c7175;
+  font-family: "Droid Serif", "Times", "Source Serif Pro", serif;
+  font-style: italic;
+  padding: 1.33333rem 0.53333rem 1.33333rem 3.2rem;
+  position: relative; }
+  blockquote:before {
+    display: block;
+    content: "\201C";
+    font-size: 4.41226rem;
+    position: absolute;
+    left: 0;
+    top: -12px;
+    color: rgba(108, 113, 117, 0.5); }
+  blockquote > :nth-child(1) {
+    margin-top: 0; }
+
+ul,
+ol {
+  margin-left: 2rem; }
+  ul > li,
+  ol > li {
+    list-style: inherit;
+    padding: 0 0 0.26667rem 0.26667rem; }
+
+dl dt {
+  color: #262626;
+  font-weight: 600; }
+
+code,
+pre {
+  background-color: #f1f1f1;
+  font-family: monospace; }
+
+pre {
+  margin: 1.6rem 0 0;
+  padding: 1.6rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto; }
+  pre > code {
+    color: #262626;
+    padding: 0; }
+
+code {
+  border-radius: 3px;
+  color: #262626;
+  padding: 0.26667rem 0.53333rem; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #d4d4d4;
+  width: 100%;
+  overflow-x: auto;
+  vertical-align: top;
+  text-align: left;
+  white-space: nowrap; }
+  table th {
+    font-weight: 500;
+    padding: 0.53333rem 1.06667rem; }
+  table tr {
+    border-bottom: 1px solid #d4d4d4; }
+    table tr:nth-child(2n) {
+      background: #f1f1f1; }
+  table td {
+    padding: 0.53333rem 1.06667rem; }
+
+figcaption {
+  clear: both;
+  color: rgba(108, 113, 117, 0.6);
+  font-size: 0.82397rem;
+  margin: 0.8rem 0 0;
+  text-align: center; }
+
+sub,
+sup {
+  font-size: 65%; }
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+
+.btn, [type=button],
+[type=submit],
+button {
+  background: #039be5;
+  border: none;
+  border-radius: 2px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.87891rem;
+  font-weight: 500;
+  line-height: 1.9;
+  padding: 0.53333rem 1.33333rem;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition: all .15s ease;
+  -o-transition: all .15s ease;
+  transition: all .15s ease;
+  width: auto; }
+  .btn:hover, [type=button]:hover,
+  [type=submit]:hover,
+  button:hover {
+    background: #262626;
+    color: #ffffff; }
+  .btn:focus, [type=button]:focus,
+  [type=submit]:focus,
+  button:focus {
+    outline: none; }
+  .btn-outline {
+    border: 1px solid #ddd;
+    background: #ffffff;
+    border-radius: 3px;
+    color: #262626; }
+
+[type=button],
+[type=submit],
+button {
+  text-transform: uppercase;
+  -webkit-appearance: none;
+  -moz-appearance: none; }
+
+.navbar {
+  background: #039be5;
+  -webkit-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  line-height: 3;
+  max-height: 4rem; }
+  .navbar > div {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: left;
+    max-width: 700px;
+    margin: 0 auto; }
+  .navbar a {
+    color: #ffffff;
+    text-decoration: none; }
+  .navbar-sidebar-toggle {
+    left: 0;
+    position: relative;
+    text-indent: -99999rem; }
+    .navbar-sidebar-toggle:before {
+      content: "";
+      display: block;
+      border-top: 0.375rem double #ffffff;
+      border-bottom: 0.125rem solid #ffffff;
+      height: 0.125rem;
+      position: absolute;
+      text-indent: 0;
+      top: 50%;
+      width: 1.3rem;
+      -webkit-transform: translate(0px, -50%);
+      -ms-transform: translate(0px, -50%);
+      transform: translate(0px, -50%); }
+
+
+.logo {
+                    background-image: url('https://github.com/valhello/web/media/website/skull.png');
+                    background-size: auto 2rem;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+            display: inline-block;
+  font-weight: 600;
+  line-height: 1;
+            margin: 0 auto;
+            height: 2rem;
+            text-indent: -9999px;
+            width: 240px;vertical-align: middle;
+        }
+        .logo.logo-text {
+            line-height: 2;
+            text-align: center;
+            text-indent: 0;
+        }
+
+amp-sidebar {
+  background: #ffffff;
+  width: 240px; }
+  amp-sidebar > ul {
+    margin: 0.8rem 0 0;
+    padding: 0; }
+    amp-sidebar > ul ul {
+      border-left: 1px solid #d4d4d4;
+      margin: 0.53333rem 0 0; }
+    amp-sidebar > ul li {
+      color: #262626;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      list-style: none;
+      line-height: 1.4;
+      padding: 0.42667rem 1.06667rem; }
+      amp-sidebar > ul li li {
+        font-weight: normal;
+        padding: 0.26667rem 0 0.26667rem 1.06667rem; }
+    amp-sidebar > ul a,
+    amp-sidebar > ul a:visited {
+      color: #262626; }
+
+.bg-white {
+  background: #ffffff; }
+
+.wrap-page {
+  max-width: 700px;
+  margin: 0 auto; }
+
+@media all and (max-width: 43.6875em) {
+  .wrap-inner {
+    padding: 0 6%; } }
+
+.page-title {
+  background: #ffffff;
+  -webkit-box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  margin-bottom: 0.8rem;
+  padding: 1.6rem 6%; }
+  .page-title > h1 {
+    margin: 0;
+    font-size: 1.29454rem; }
+  .page-title > p {
+    font-size: 0.87891rem;
+    color: #6c7175;
+    line-height: 1.3;
+    margin: 0.26667rem 0 0; }
+  .page-title-author {
+    border-radius: 50%;
+    float: left;
+    height: 2.5rem;
+    width: 2.5rem; }
+    .page-title-author + h1 {
+      margin-left: 3.5rem; }
+      .page-title-author + h1 + p {
+        margin-left: 3.5rem; }
+
+.card {
+  background: #ffffff;
+  -webkit-box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  margin-bottom: 0.8rem;
+  padding-bottom: 1.06667rem; }
+
+  .card-meta {
+    border-top: 1px solid #d4d4d4;
+    color: rgba(108, 113, 117, 0.6);
+    font-size: 0.7242rem;
+    font-weight: 500;
+    margin-top: 1.06667rem;
+    padding-top: 1.06667rem;
+    text-transform: uppercase; }
+    .card-meta a + time:before {
+      content: "";
+      background: #d4d4d4;
+      display: inline-block;
+      height: 3px;
+      margin: 0 8px;
+      width: 3px;
+      vertical-align: middle;
+      border-radius: 50%; }
+  .card-text {
+    font-size: 0.9375rem;
+    overflow: hidden;
+    padding: 0 6%; }
+    .card-text h2 {
+      font-size: 1.13778rem; }
+
+.post {
+  margin-bottom: 2.13333rem; }
+  .post-featured-image {
+    margin-top: 0;
+    position: relative; }
+    .post-featured-image > figcaption {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 3px;
+      color: #ffffff;
+      position: absolute;
+      bottom: 0.8rem;
+      padding: 0 0.26667rem;
+      right: 6%; }
+  .post-header {
+    margin-bottom: 2.13333rem; }
+  .post-meta {
+    border-bottom: 1px solid #d4d4d4;
+    color: rgba(108, 113, 117, 0.6);
+    font-size: 0.7242rem;
+    font-weight: 500;
+    margin-top: 1.06667rem;
+    padding-bottom: 1.06667rem;
+    text-transform: uppercase; }
+    .post-meta a + time:before {
+      content: "";
+      background: #d4d4d4;
+      display: inline-block;
+      height: 3px;
+      margin: 0 8px;
+      width: 3px;
+      vertical-align: middle;
+      border-radius: 50%; }
+  .post-tag {
+    margin: 0; }
+    .post-tag > li {
+      display: inline-block;
+      padding: 0; }
+      .post-tag > li a {
+        background: #f1f1f1;
+        border-radius: 2px;
+        color: #6c7175;
+        font-size: 0.77248rem;
+        display: inline-block;
+        margin: 0 0.26667rem 0.26667rem 0;
+        padding: 0.26667rem 0.53333rem; }
+        .post-tag > li a:hover {
+          background: #039be5;
+          color: #ffffff;
+          text-decoration: none; }
+  .post-share {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-top: 1.6rem;
+    width: 100%; }
+    .post-share amp-social-share {
+      -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+      background-size: 24px; }
+  .post-scroll {
+    color: #ffffff;
+    background: #039be5;
+    bottom: 10px;
+    border-radius: 50%;
+    border: none;
+    -webkit-box-shadow: 0 1px 1.5px 0 rgba(38, 38, 38, 0.12), 0 1px 1px 0 rgba(38, 38, 38, 0.24);
+    box-shadow: 0 1px 1.5px 0 rgba(38, 38, 38, 0.12), 0 1px 1px 0 rgba(38, 38, 38, 0.24);
+    font-size: 1.13778rem;
+    height: 46px;
+    opacity: 0;
+    outline: none;
+    position: fixed;
+    padding: 0;
+    right: 4%;
+    visibility: hidden;
+    width: 46px;
+    z-index: 9999; }
+    .post-scroll-marker {
+      height: 0px;
+      position: absolute;
+      top: 100px;
+      width: 0px; }
+        .post-pagination {
+    background: #f1f1f1;
+    -webkit-box-shadow: inset 0 2px 3px rgba(38, 38, 38, 0.1);
+    box-shadow: inset 0 2px 3px rgba(38, 38, 38, 0.1);
+    border-top: 1px solid #d4d4d4;
+    padding: 1.06667rem 0; }
+    .post-pagination > div {
+      line-height: 1.2;
+      padding: 0.53333rem 1.06667rem;
+      text-align: center; }
+      .post-pagination > div span {
+        display: block;
+        color: #6c7175;
+        font-size: 0.7242rem;
+        font-weight: 500;
+        margin-bottom: 0.26667rem;
+        text-transform: uppercase; }
+    .post-pagination-prev a:before {
+      content: "\2190";
+      margin-right: 0.26667rem; }
+    .post-pagination-next a:after {
+      content: "\2192";
+      margin-left: 0.26667rem; }
+
+aside {
+  margin: 1.6rem 0 0; }
+
+.align-left {
+  text-align: left; }
+
+.align-right {
+  text-align: right; }
+
+.align-center {
+  text-align: center; }
+
+.align-justify {
+  text-align: justify; }
+
+.msg {
+  border-left: 2px solid transparent;
+  padding: 1.06667rem 1.06667rem; }
+  .msg--highlight {
+    background-color: #fff8e6;
+    border-color: #e2ac4f; }
+  .msg--info {
+    background: rgba(45, 97, 201, 0.03);
+    border-color: #039be5; }
+  .msg--success {
+    background: #f7fbf6;
+    border-color: #5ab44b; }
+  .msg--warning {
+    background: #fff3f3;
+    border-color: #c06367;
+    color: #a94442; }
+
+.dropcap:first-letter {
+  float: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 2.16943rem;
+  line-height: 0.7;
+  margin-right: 0.53333rem;
+  padding: 0.53333rem 0.53333rem 0.53333rem 0; }
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0.8rem 0; }
+  .pagination > a {
+    padding-left: 0;
+    padding-right: 0;
+    width: 49%; }
+  .pagination-right {
+    margin-left: auto; }
+
+.bottom {
+  background: #039be5;
+  color: #ffffff;
+  padding: 1.06667rem 4%;
+  text-align: center; }</style><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><script custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js" async></script><script custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js" async></script></head><body class="bg-white"><nav class="navbar wrap-inner" id="top"><div><a on="tap:navbar-sidebar.toggle" class="navbar-sidebar-toggle" title="Menu">Menu</a> <a class="logo" href="https://github.com/valhello/web/amp">Valhello</a></div></nav><main class="wrap-page"><article class="post"><figure class="post-featured-image"><amp-img src="https://github.com/valhello/web/media/posts/2/p02m63dp.jpg" alt="" srcset="https://github.com/valhello/web/media/posts/2/responsive/p02m63dp-xs.jpg 300w ,https://github.com/valhello/web/media/posts/2/responsive/p02m63dp-sm.jpg 480w ,https://github.com/valhello/web/media/posts/2/responsive/p02m63dp-md.jpg 749w" sizes="(max-width: 768px) 100vw, 768px" height="518" layout="responsive" width="1280"></amp-img></figure><div class="wrap-inner"><header class="post-header"><h1>Approach 1: State Channels</h1><p class="post-meta">[MISSING TRANSLATION] <a href="https://github.com/valhello/web/amp/authors/bruno-skvorc/" rel="nofollow" title="Bruno Škvorc">Bruno Škvorc</a> <time datetime="2019-01-06T09:01">January 6, 2019</time></p></header><p>The first approach to build Valhello will be with state channels. How will the state channel approach help Valhello grow? What are State channels and how do they work? Are they a viable scaling solution? Let's see.</p><p><em>Header image <a href="https://www.bbc.com/bitesize/articles/zw3qmp3">via BBC</a></em></p><p>The following content is partially extracted from <a href="https://bruno.id/valhello-ethereum-state-channels-for-games/">this post</a>.</p><h2>State Channels</h2><p>If you've been in Ethereum long enough, you probably remember the time <a href="https://bitfalls.com/2018/02/18/15-alternatives-cryptokitties-no-idea-existed/">CryptoKitties</a> slowed the whole network down because of pending transactions. Around that time, the idea of payment channels started to take more concrete shape across the various blockchain projects.</p><h3>Payment Channels</h3><p>A payment channel works like this: two parties deposit a stake into a multi-signature wallet, and then exchange messages about the state of that wallet until they're ready to close the wallet and each withdraw their share. So Alice and Bob may start out with A:1eth / B:0eth, and end with A:0.3eth / B:0.7eth. Between those two states (the opening and closing state), there may have been a thousand transactions - but all of them were free and instant because they were only communicated between the two parties. Once Alice and Bob are ready to broadcast their wallet states to the world, they send a transaction to the blockchain which contains the closing state, and to the outside world it looks like Alice just straight up sent Bob 0.7 eth. This is a payment channel because it channels payments, and we explained it with an illustrated example <a href="https://bitfalls.com/2018/04/15/lightning-network-work/">here</a> - highly recommended you read this.</p><p>The most notable examples of payment channels are Bitcoin's Lightning Network (which <a href="https://www.youtube.com/watch?v=yGrUOLsC9cw">cannot work</a> and is already <a href="https://twitter.com/abrkn/status/1078193601190989829">driving users away</a>) and Ethereum's Raiden Network which is just Eth's version of Lightning (Raiden is the god of lightning in Mortal Kombat).</p><p>Personally, I'm a much bigger fan of state channels.</p><h3>State Channels</h3><p>State channels are like payment channels, but for <em>state</em>. Technically, wallet balance is also state - the state refers to the current data of the blockchain, such that the balances of everyone are known. But while payment channels focus on tokens in particular (native like BTC or ETH or implementations like ERC20), state channels abstract that even further and consider not only token balances state, but also all other data points state.</p><p>So instead of exchanging messages about changes in wallet balance with another party, you exchange messages about data.</p><p>Example of a payment channel:</p><ul><li>Alice and Bob open a payment channel with 0.5 eth each (&lt;- transaction happens)</li><li>Alice sends Bob 0.1 eth</li><li>Alice sends Bob 0.1 eth</li><li>Alice sends Bob 0.1 eth</li><li>Bob refunds 0.25 eth</li><li>Alice and Bob close a payment channel with Alice having 0.45 and Bob having 0.55 eth. (&lt;- transaction happens)</li></ul><p>Example of a state channel:</p><ul><li>Alice buys a crypto kitty "AngryCat" on the open market for 0.5 eth (transaction outside state channel, on something like <a href="https://opensea.io/">Opensea</a>)</li><li>Bob buys a crypto kitty "BloatyCat" on the open market for 0.2 eth (transaction outside state channel, on something like <a href="https://opensea.io/">Opensea</a>)</li><li>Alice opens a channel with CryptoKitties, committing her AngryCat as a deposit along with 1 eth (&lt;- tx happens)</li><li>Bob opens a channel with CryptoKitties, committing his BloatyCat as a deposit along with 0.5 eth (&lt;- tx happens)</li><li>Alice puts AngryCat to breed for the breed price of 0.2 eth</li><li>Bob notices a breedable kitty AngryCat, and decides to accept the offer</li><li>Bob sends 0.2 eth to CryptoKitties for breeding BloatyCat with AngryCat</li><li>CryptoKitties sends 0.2 eth to Alice and creates a new cat - AngryFartCat - assigning it to Bob. This turns out to be a rare cat because angry farts are special.</li><li>Bob decides to put AngryFartCat up for breeding for the breed price of 0.5 eth.</li><li>A third user, Charlie, notices this cat and decides he wants in on the action. He has a cat from before: CombatCat, so he opens a channel with CryptoKitties and 0.5 eth (&lt;- tx happens)</li><li>Charlie breeds CombatCat with AngryFartCat, sending 0.5 eth to CK. CK mints a new cat: NerveGasCat, and assigns it to Charlie, sending 0.5 eth to Bob.</li><li>Bob decides he's had enough of the game for now and closes the channel. He ends up with a rare AngryFartCat and 0.8 eth. Bob profited. (&lt;- tx happens)</li><li>Charlie puts NerveGasCat up for breeding for 1 eth.</li><li>Alice would like to breed AngryCat with it. 1 eth out of her 1.2 eth is sent to CK. CK mints SaiyanCat and assigns it to Alice, sending her 1 eth to Charlie.</li><li>Alice and Charlie have now had enough, and exit the game by closing their channels (&lt;- tx happens)</li><li>Alice ends up with 0.2 eth but she also has SaiyanCat. She puts it up for sale on Opensea.io for 5 eth. If she sells it, she's turned a nice profit from the starting 1 eth.</li><li>Charlie ends up with 1 eth (a profit of 0.5 eth) and NerveGasCat. He's happy with the gain, but still puts it up for sale on Opensea.io for 5 eth.</li></ul><p>As you can see, the gameplay itself can get pretty complex - especially as we introduce more players - but the number of transactions when players are <em>in</em> the game (i.e. have state channels open) remains the same. We still max out at 2 transactions per player - one to open the channel, and one to close. Granted, if Alice wanted to breed for 1 eth and didn't have enough eth in her balance, she would have to either earn it in the game by breeding / selling / etc. or she would have had to top up her account. This would have required another transaction (a top-up is actually a simultaneous open / close channel transaction).</p><p>Now if we apply this to a truly multi-player game with consequences and more interactivity, we can stretch out imagination a bit and see how it might apply to a MUD. Read on below.</p><p>To find out more about state channels, see:</p><ul><li><ul><li><a href="http://www.jeffcoleman.ca/state-channels/">http://www.jeffcoleman.ca/state-channels/</a></li><li></li></ul></li></ul><a href="https://medium.com/l4-media/making-sense-of-ethereums-layer-2-scaling-solutions-state-channels-plasma-and-truebit-22cb40dcc2f4">https://medium.com/l4-media/making-sense-of-ethereums-layer-2-scaling-solutions-state-channels-plasma-and-truebit-22cb40dcc2f4</a><ul><li><a href="http://ledgerjournal.org/ojs/index.php/ledger/article/download/15/64">http://ledgerjournal.org/ojs/index.php/ledger/article/download/15/64</a></li><li><a href="https://gist.github.com/anonymous/ecda6a24d0f32522a691fd21d75c5e6">https://gist.github.com/anonymous/ecda6a24d0f32522a691fd21d75c5e6</a></li><li><a href="https://www.counterfactual.com/technology/">https://www.counterfactual.com/technology/</a></li></ul><h2>Implementation</h2><h3>Account Creation</h3><p>To create an account, a user interacts with the game's smart contract by sending in 0.15 eth. 0.05 eth used for funding further development (better than an ICO <code>¯\_(ツ)_/¯</code>), while 0.1 eth is locked up as that player's deposit. The created character thus enters Asgard (the lobby area), where everything begins.</p><h3>World Shards are State Channels</h3><p>Each world zone is a state channel, including Asgard. So entering Asgard adds a player to the Asgard state channel. Whenever a player exits a shard, they get their deposit back. Whenever a player enters a shard, they need to put the deposit down again. The deposit is always 0.1 eth, and the initial 0.05 eth character creation fee is only paid once per character, but every time for a new character. This deposit is a guarantee of good behavior, and is refunded once the player character exits ("Summon a Valkyrie") unless the exit was an ejection triggered by another player (i.e. an invalid transaction was detected and not rectified in a given time frame).</p><p>During interaction in a shard, it is assumed all players are making only valid moves. If, however, a player makes invalid moves IRT the game state, others who detected these moves can trigger a reporting procedure which will send a transaction to the public blockchain for the initiation of the dispute resolution process. In other words, you can rat someone out and unless they start behaving they get kicked out of the universe and their deposit is split in half: half is burned, and half is given to the reporter and those confirming the report.</p><p>Players transition between worlds (zones) through the Bifrost portal by exiting a previous channel, if in any, and entering a new channel. Entering and exiting a zone means sending a transaction, but keeps the game worlds isolated and small, allowing for addition of zones, tweaks to rules, user-contributed zones, and more.</p><h3>Rest and exit</h3><p>As long as players remain in the game, others can initiate combat with them, steal from them, interact with them. If the player remains inactive (no response given) for more than 24 hours, their state channel automatically closes. A player can close their channel manually, too, to exit the game and pause their character (the Summon a Valkyrie operation). This has the added effect of withdrawing the player character to a user's wallet, which lets them trade the character on an NFT marketplace (the player characters are <a href="https://bitfalls.com/nft">NFTs</a>).</p><h3>UX</h3><p>All this talk about transactions makes for a poor user experience. The average user does not want to think about transactions, gas costs, confirmation times, etc. The way we get around this is as follows:</p><ul><li>the game will use <a href="https://our.status.im/tag/nimbus">Nimbus</a> as a back end, which can handle peer to peer connections and key management. In effect, the game client is a wallet which can auto-sign transactions or, for the more paranoid, request a password for every transaction (depending on whether or not a keystore file was encrypted). This means that the user starts playing by downloading the game client (weird to call it that since there's no <em>server</em>, but okay), seeding it with a bit of eth, and the client takes over, occasionally asking for a password.</li><li>each interaction with a shard is happening on a state channel, which makes it possible to interact with other players and the world through commands like <code>LOOK at @swader</code>or <code>PUNCH @swader</code> or <code>GIVE #mjolnir to @swader</code>. These interactions are signed messages aggregating on the clients running that particular <em>shard</em> of the universe, of which there will always be at least 2: the software running over in <a href="https://bitfalls.com/">Bitfalls HQ</a>, and the player's computer.</li></ul><p>Therefore, think of the game client like a stripped down version of <a href="https://bitfalls.com/2018/02/12/explaining-ethereum-tools-geth-mist/">Mist</a> which has the ability to execute custom pre-defined transactions. The client itself will contain all the game logic.</p><h3>State growth</h3><p>To achieve a feeling of real time interaction, the clients that communicate are constantly exchanging messages that basically say "no action taken". This happens roughly once per second (throttled, so powerful computers don't become too fast players). This allows a player to issue a command at any time, and it'll seem real time. This also means the state of the channel grows rapidly and constantly.</p><p>Because it's in everyone's best interest to keep the game client light-weight, the plan is to occasionally purge the shard data though how often and <em>how</em> exactly is still up in the air and will be decided when we see how fast the clients are filling up hard drives.</p><h2>What next?</h2><p>Wait for the code or help us write it. The <a href="https://github.com/valhello">Valhello org on Github</a> is the one to keep an eye on, or get in touch <a href="https://twitter.com/bitfalls">on Twitter</a>.</p><aside><ul class="post-tag"><li><a href="https://github.com/valhello/web/amp/tag/basics/">basics</a></li><li><a href="https://github.com/valhello/web/amp/tag/state-channels/">state-channels</a></li></ul><div class="post-share"><amp-social-share type="system" width="40" height="40" data-param-text="Approach 1: State Channels"></amp-social-share><amp-social-share type="facebook" width="40" height="40" data-param-app_id="" data-param-text="Approach 1: State Channels" data-param-href="https://github.com/valhello/web/amp/approach-1-state-channels/"></amp-social-share><amp-social-share type="twitter" width="40" height="40" data-param-text="Approach 1: State Channels" data-param-url="https://github.com/valhello/web/amp/approach-1-state-channels/"></amp-social-share><amp-social-share type="pinterest" width="40" height="40" data-param-url="https://github.com/valhello/web/amp/approach-1-state-channels/"></amp-social-share><amp-social-share type="tumblr" width="40" height="40" data-param-text="Approach 1: State Channels" data-param-url="https://github.com/valhello/web/amp/approach-1-state-channels/"></amp-social-share><amp-social-share type="whatsapp" width="40" height="40" data-param-text="Approach 1: State Channels"></amp-social-share></div></aside></div></article><nav class="post-pagination wrap-inner"><div class="post-pagination-prev"><span>Prev: </span><a href="https://github.com/valhello/web/amp/valhello-world/">Valhello World</a></div><div class="post-pagination-next"><span>Next: </span><a href="https://github.com/valhello/web/amp/approach-2-loomx/">Approach 2: LoomX</a></div></nav></main><amp-animation id="showAnim" layout="nodisplay"><script type="application/json">{
+                    "duration": "200ms",
+                    "fill": "both",
+                    "iterations": "1",
+                    "direction": "alternate",
+                    "animations": [{
+                        "selector": ".post-scroll",
+                        "keyframes": [{
+                            "opacity": "1",
+                            "visibility": "visible",
+                            "transform": "scale(1)"
+                        }]
+                    }]
+                }</script></amp-animation><amp-animation id="hideAnim" layout="nodisplay"><script type="application/json">{
+                    "duration": "200ms",
+                    "fill": "both",
+                    "iterations": "1",
+                    "direction": "alternate",
+                    "animations": [{
+                        "selector": ".post-scroll",
+                        "keyframes": [{
+                            "opacity": "0",
+                            "visibility": "hidden",
+                            "transform": "scale(0.1)"
+                        }]
+                    }]
+                }</script></amp-animation><div class="post-scroll-marker"><amp-position-observer on="enter:hideAnim.start; exit:showAnim.start" layout="nodisplay"></amp-position-observer></div><button class="post-scroll" on="tap:top.scrollTo(duration=200)">&#8593;</button><footer class="bottom">Powered by Publii</footer><amp-sidebar id="navbar-sidebar" layout="nodisplay"><ul><li><a href="https://github.com/valhello/web/amp/valhello-world/">Intro</a></li><li><a href="https://github.com/valhello/web/amp/faq/">FAQ</a></li><li><a href="https://github.com/valhello">Github</a></li></ul></amp-sidebar></body></html>
